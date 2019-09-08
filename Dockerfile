@@ -1,3 +1,4 @@
+ARG PYTHON_VERSION
 FROM python:3.7 as watchman
 WORKDIR /watchman
 RUN git clone --depth 1 https://github.com/facebook/watchman.git . \
@@ -9,7 +10,7 @@ RUN git clone --depth 1 https://github.com/facebook/watchman.git . \
     && rm -rf /watchman
 WORKDIR /dist
 
-FROM python:3.7-slim
+FROM python:$PYTHON_VERSION
 ENV PIP_NO_CACHE_DIR=1
 
 COPY --from=watchman /dist /
