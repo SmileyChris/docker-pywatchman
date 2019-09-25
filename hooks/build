@@ -1,2 +1,2 @@
 #!/bin/sh
-docker build --build-arg PYTHON_VERSION=$DOCKER_TAG -t $IMAGE_NAME .
+docker build --build-arg PYTHON_VERSION=$DOCKER_TAG -f $DOCKERFILE_PATH -t $IMAGE_NAME .
