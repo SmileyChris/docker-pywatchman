@@ -31,4 +31,5 @@ RUN apt-get update \
     && pip install pywatchman \
     && apt-get purge -y gcc \
     && rm -rf /var/lib/apt/lists/*
-RUN mkdir -p /usr/local/var/run/watchman/
+RUN mkdir -p /usr/local/var/run/watchman/ && \
+    chmod 2777 /usr/local/var/run/watchman/
