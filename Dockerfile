@@ -33,7 +33,6 @@ RUN apt-get update \
     libboost-chrono1.67.0 \
     libboost-date-time1.67.0 \
     && pip install pywatchman \
-    && apt-get purge -y gcc \
     && rm -rf /var/lib/apt/lists/*
 RUN mkdir -p /usr/local/var/run/watchman/ && \
     chmod 2777 /usr/local/var/run/watchman/
