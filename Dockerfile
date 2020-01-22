@@ -1,13 +1,17 @@
 ARG PYTHON_VERSION
 FROM python:3.7 as watchman
+
+# The "folly" component currently fails if "fmt" is not explicitly installed first.
+RUN apt-get update && apt-get install -y sudo cmake
+WORKDIR /fmt
+RUN git clone --depth 1 https://github.com/fmtlib/fmt.git .
+RUN cmake .
+RUN make -j$(nproc) && sudo make install
+
 WORKDIR /watchman
-RUN git clone --depth 1 https://github.com/facebook/watchman.git . \
-    && apt-get update && apt-get install sudo \
-    && ./autogen.sh \
-    && make \
-    && mkdir /dist; make install DESTDIR=/dist \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /watchman
+RUN git clone --depth 1 https://github.com/facebook/watchman.git .
+RUN ./autogen.sh
+RUN make -j$(nproc) && mkdir /dist && make install DESTDIR=/dist
 WORKDIR /dist
 
 FROM python:$PYTHON_VERSION
