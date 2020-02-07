@@ -18,6 +18,7 @@ FROM python:$PYTHON_VERSION
 ENV PIP_NO_CACHE_DIR=1
 
 COPY --from=watchman /dist /
+COPY --from=watchman /watchman/python/ /watchman/python/
 RUN apt-get update \
     && apt-get install -y  \
     gcc \
@@ -32,7 +33,12 @@ RUN apt-get update \
     libboost-thread1.67.0 \
     libboost-chrono1.67.0 \
     libboost-date-time1.67.0 \
-    && pip install pywatchman \
+    && cd /watchman/python \
+    && sed -i "s/^from distutils.core import /from setuptools import /g" setup.py \
+    && python setup.py bdist_wheel \
+    && cp /watchman/python/dist/pywatchman-*.whl / \
+    && rm -r /watchman \
     && rm -rf /var/lib/apt/lists/*
+RUN pip install /pywatchman-*.whl
 RUN mkdir -p /usr/local/var/run/watchman/ && \
     chmod 2777 /usr/local/var/run/watchman/

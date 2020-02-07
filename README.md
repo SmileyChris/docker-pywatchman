@@ -2,8 +2,8 @@
 
 Django's runserver works a lot more efficiently with watchman installed.
 
-If you are using a virtualenv in your container you'll just need to
-`pip install pywatchman` from within your environment.
+If you are using a virtualenv in your container you'll just need to run
+`pip install /pywatchman-*.whl` from within your environment.
 
 
 ## Building this Image
